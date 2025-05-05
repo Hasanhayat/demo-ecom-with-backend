@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Layout from '../layouts/MainLayout'
 import { Geist, Geist_Mono } from "next/font/google";
 
 const geistSans = Geist({
