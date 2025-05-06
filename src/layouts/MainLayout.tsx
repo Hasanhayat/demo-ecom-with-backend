@@ -9,10 +9,10 @@ type Props = {
 
 const MainLayout = ({ children }: Props) => {
   return (
-    <div className="bg-gray-900 text-white min-h-screen flex flex-col">
-      <Navbar />
+    <div className="">
+      {/* <Navbar />
       <main className="flex-1 p-8">{children}</main>
-      <Footer />
+      <Footer /> */}
     </div>
   );
 };
