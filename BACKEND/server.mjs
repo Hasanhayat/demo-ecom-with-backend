@@ -59,6 +59,7 @@ app.delete("/api/deleteProduct/:id", (req ,res)=>{
     
 })
 app.put("api/updateProduct/:id", (req, res) => {
+    
     const { name, price, description } = req.body;
     const id = parseInt(req.params.id);
     let image = req.body.image || "https://placehold.co/400"; 
