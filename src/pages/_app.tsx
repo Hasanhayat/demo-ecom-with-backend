@@ -4,8 +4,8 @@ import MainLayout from '../layouts/MainLayout';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <MainLayout>
+    // <MainLayout>
       <Component {...pageProps} />
-    </MainLayout>
+    //  </MainLayout> 
   );
 }
