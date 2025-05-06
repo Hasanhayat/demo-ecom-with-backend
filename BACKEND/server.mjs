@@ -27,7 +27,7 @@ app.get("/api/getProducts", (req, res) => {
 
 app.post("/api/addProduct", (req, res) => {
   const { name, price, description } = req.body;
-  let image = req.body.image || "https://placehold.co/400";
+  let image = req.body.image || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTS_Db0jJvWe6vYScLksI8qoM2WCeHfJnSBVw&s";
   if (!name || !price || !description) {
     return res.status(400).send("required fields are missing");
   }
@@ -67,7 +67,7 @@ app.delete("/api/deleteProduct/:id", (req, res) => {
 app.put("/api/updateProduct/:id", (req, res) => {
   const { name, price, description } = req.body;
   const id = parseInt(req.params.id);
-  let image = req.body.image || "https://placehold.co/400";
+  let image = req.body.image || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTS_Db0jJvWe6vYScLksI8qoM2WCeHfJnSBVw&s";
   if (!name || !price || !description) {
     return res.status(400).send("required fields are missing");
   }
