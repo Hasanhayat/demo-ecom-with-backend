@@ -5,6 +5,7 @@ import api from "../../utilis/api";
 export default function EditProduct() {
   const router = useRouter();
   const { id } = router.query;
+  
 
   const [form, setForm] = useState({
     name: "",
