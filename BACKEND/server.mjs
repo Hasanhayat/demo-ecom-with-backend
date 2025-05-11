@@ -25,6 +25,7 @@ app.get("/api/getProducts", (req, res) => {
   res.send(products);
 });
 
+
 app.post("/api/addProduct", (req, res) => {
   const { name, price, description } = req.body;
   let image = req.body.image || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTS_Db0jJvWe6vYScLksI8qoM2WCeHfJnSBVw&s";
