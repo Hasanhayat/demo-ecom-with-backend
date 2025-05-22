@@ -15,6 +15,14 @@ app.get("/", (req, res) => {
 });
 
 app.get("/api/getProducts", (req, res) => {
+  db.query("SELECT * FROM products")
+    .then((result) => {
+      res.status(200).json(result.rows);
+    })
+    .catch((error) => {
+      console.error("Error fetching products:", error);
+      res.status(500).send("Internal Server Error");
+    });
 
 });
 
@@ -24,38 +32,32 @@ app.post("/api/addProduct", (req, res) => {
   if (!name || !price || !description) {
     return res.status(400).send("required fields are missing");
   }
-  const newProduct = {
-    id: new Date().getTime(), // Unique ID based on timestamp
-    name,
-    price,
-    description,
-    image,
-  };
-  products.push(newProduct);
-  res.status(201).send("product added :", newProduct);
+  db.query(
+    "INSERT INTO products (name, price, description, image) VALUES ($1, $2, $3, $4) RETURNING *",
+    [name, price, description, image]
+  )
+    .then((result) => {
+      res.status(201).json(result.rows[0]);
+    })
+    .catch((error) => {
+      console.error("Error adding product:", error);
+      res.status(500).send("Internal Server Error");
+    });
 });
 
 app.delete("/api/deleteProduct/:id", (req, res) => {
   let id = req.params.id;
-
-  products = products.filter((product) => product.id !== parseInt(id));
-  res.status(200).send("Product deleted successfully");
-
-  // let isMatched = false;
-
-  // for(let i=0; i < products.length; i++){
-  //     if(products[i].id == productId){
-  //         isMatched = true;
-  //         products.splice(i , 1);
-  //         break;
-  //     }
-  // }
-
-  // if(isMatched){
-  //     res.send("Product Deleted");
-  // }else{
-  //     res.send(`product id (${productId}) did not matched`)
-  // }
+  db.query("DELETE FROM products WHERE id = $1", [id])
+    .then((result) => {
+      if (result.rowCount === 0) {
+        return res.status(404).send("Product not found");
+      }
+      res.status(200).send("Product deleted successfully");
+    })
+    .catch((error) => {
+      console.error("Error deleting product:", error);
+      res.status(500).send("Internal Server Error");
+    });
 });
 app.put("/api/updateProduct/:id", (req, res) => {
   const { name, price, description } = req.body;
