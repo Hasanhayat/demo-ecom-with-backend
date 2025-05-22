@@ -62,16 +62,25 @@ app.delete("/api/deleteProduct/:id", (req, res) => {
 app.put("/api/updateProduct/:id", (req, res) => {
   const { name, price, description } = req.body;
   const id = parseInt(req.params.id);
-  let image = req.body.image || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTS_Db0jJvWe6vYScLksI8qoM2WCeHfJnSBVw&s";
+  let image = req.body.image || "https://placehold.co/400";
   if (!name || !price || !description) {
     return res.status(400).send("required fields are missing");
   }
-  const productIndex = products.findIndex((product) => product.id === id);
-  if (productIndex === -1) {
-    return res.status(404).send("Product not found");
-  }
-  products[productIndex] = { id, name, price, description, image };
-  res.status(200).send("Product updated successfully");
+  db.query(
+    "UPDATE products SET name = $1, price = $2, description = $3, image = $4 WHERE id = $5 RETURNING *",
+    [name, price, description, image, id]
+  )
+    .then((result) => {
+      if (result.rowCount === 0) {
+        return res.status(404).send("Product not found");
+      }
+      res.status(200).json(result.rows[0]);
+    })
+    .catch((error) => {
+      console.error("Error updating product:", error);
+      res.status(500).send("Internal Server Error");
+    });
+
 });
 
 app.listen(PORT, () => {
