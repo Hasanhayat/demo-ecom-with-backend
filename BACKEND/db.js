@@ -1,7 +1,7 @@
-import {pool} from 'pg';
+import { Pool } from "pg";
 import 'dotenv/config';
 
-const db = new pool({
+const db = new Pool({
     database: process.env.DB_NAME,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
