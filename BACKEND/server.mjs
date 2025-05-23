@@ -21,7 +21,7 @@ app.get("/api/getProducts", (req, res) => {
     })
     .catch((error) => {
       console.error("Error fetching products:", error);
-      res.status(500).send({message:"Internal Server Error",error:error});
+      res.status(500).send({"message":"Internal Server Error","error":error});
     });
 
 });
